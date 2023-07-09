@@ -5,6 +5,7 @@
 This assignment will develop your basic familiarity with Python.
 '''
 
+import math
 def savings(gross_pay, tax_rate, expenses):
     '''Savings.
     5 points.
@@ -70,11 +71,12 @@ def material_waste(total_material, material_units, num_jobs, job_consumption):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    remaining_material = total_material - (num_jobs * job_consumption)
-    product = str(abs(remaining_material)) + material_units
-    
-    return formatted_result
+    material_consumed = num_jobs * job_consumption
+    remaining_material = total_material - material_consumed
+    waste = str(remaining_material) + material_units
+    return waste
 
+import math
 def interest(principal, rate, periods):
     '''Interest.
     5 points.
