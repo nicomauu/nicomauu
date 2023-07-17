@@ -41,15 +41,7 @@ def relationship_status(from_member, to_member, social_graph):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    if to_member in social_graph[from_member]['following']:
-        if from_member in social_graph[to_member]['following']:
-            return("friends")
-        else:
-            return("follower")
-    elif from_member in social_graph[to_member]['following']:
-        return("followed by")
-    else:
-        return("no relationship")
+
 
 def tic_tac_toe(board):
     '''Tic Tac Toe.
@@ -77,23 +69,7 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    import numpy as np
-    def checkrows(board):
-        for row in board:
-            if len(set(row))==1:
-                return row [0]
-        return 0
-    def checkdiagonals(board):
-        if len(set([board[i][i] for i in range(len(board))]))==1:
-            return board[0][0]
-        if len(set([board[i][len(board)-i-1] for i in range(len(board))]))==1:
-            return board[0][len(board)-1]
-        return "NO WINNER"
-    for newboard in [board,np.transpose(board)]:
-        result=checkrows(newboard)
-        if result:
-            return result
-    return checkdiagonals(board)
+
 
 import math
 def eta(first_stop, second_stop, route_map):
@@ -127,14 +103,4 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    prev = first_stop
-    total = 0
-    while True:
-        next = [k[1] for k in route_map if k[0] == prev]
-        if next:
-            next = next[0]
-            total += route_map[(prev, next)]['travel_time_mins']
-            if next == second_stop:
-                return(total)
-                break
-            prev = next
+
