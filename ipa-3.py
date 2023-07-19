@@ -41,17 +41,17 @@ def relationship_status(from_member, to_member, social_graph):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    if from_member in social_graph.get(to_member, []):
-        if to_member in social_graph.get(from_member, []):
-            return "friends"
+    if to_member in social_graph[from_member]['following']:
+        if from_member in social_graph[to_member]['following']:
+            return("friends")
         else:
-            return "followed by"
-    elif to_member in social_graph.get(from_member, []):
-        return "follower"
+            return("follower")
+    elif from_member in social_graph[to_member]['following']:
+        return("followed by")
     else:
-        return "no relationship"
+        return("no relationship")
 
-
+import numpy as np
 def tic_tac_toe(board):
     '''Tic Tac Toe.
     25 points.
@@ -78,18 +78,31 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    for row in board:
-        if len(set(row)) == 1:
-            return row[0]
-    for col in range(len(board)):
-        if len(set(board[row][col] for row in range(len(board)))) == 1:
-            return board[0][col]
-    size = len(board)
-    if len(set(board[i][i] for i in range(size))) == 1:
-        return board[0][0]
-    if len(set(board[i][size - i - 1] for i in range(size))) == 1:
-        return board[0][size - 1]
-    return "NO WINNER"
+    def check_rows(board):
+        for row in board:
+            if len(set(row)) == 1:
+                return row[0]
+        return None
+
+    def check_diagonals(board):
+        size = len(board)
+        main_diag_symbols = [board[i][i] for i in range(size)]
+        anti_diag_symbols = [board[i][size - i - 1] for i in range(size)]
+
+        if len(set(main_diag_symbols)) == 1:
+            return main_diag_symbols[0]
+
+        if len(set(anti_diag_symbols)) == 1:
+            return anti_diag_symbols[0]
+
+        return "NO WINNER"
+
+    for new_board in [board, np.transpose(board)]:
+        result = check_rows(new_board)
+        if result:
+            return result
+
+    return check_diagonals(board)
 
 import math
 def eta(first_stop, second_stop, route_map):
@@ -124,16 +137,18 @@ def eta(first_stop, second_stop, route_map):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     current_stop = first_stop
-    total_time = 0
-    while current_stop != second_stop:
-        for leg in route_map[current_stop]:
-            if leg[0] == second_stop:
-                total_time += leg[1]
-                return math.ceil(total_time)
-            else:
-                total_time += leg[1]
-                current_stop = leg[0]
+    total_travel_time = 0
+
+    while True:
+        next_stops = [route[1] for route in route_map if route[0] == current_stop]
+
+        if next_stops:
+            next_stop = next_stops[0]
+            total_travel_time += route_map[(current_stop, next_stop)]['travel_time_mins']
+
+            if next_stop == second_stop:
+                return total_travel_time
                 break
-                
-    return math.ceil(total_time)
+
+            current_stop = next_stop
 
